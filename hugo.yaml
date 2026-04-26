@@ -1,5 +1,5 @@
 # Personal academic site (single page + PaperMod). Replace branding and URLs before publishing.
-baseURL: "https://example.org/"
+baseURL: "https://muhammadzaky09.github.io/"
 languageCode: en-us
 title: "Muhammad Zaky Firdaus"
 theme: PaperMod
