@@ -1,0 +1,7 @@
+# Local Hugo install (optional)
+.bin/
+.codex
+public/
+resources/
+.hugo_build.lock
+themes/PaperMod/.github/

@@ -1,0 +1,13 @@
+areas:
+  - name: "ML Acceleration Techniques"
+    summary: "Co-designing ML systems with hardware accelerations and algorithmic optimizations with goal of improving performance and energy efficiency."
+    keywords:
+      - Sparse-matrix
+      - Quantization
+      - Graph Neural Networks
+  - name: "ML Systems Reliability"
+    summary: "Analyzing and designing reliable hardware accelerators that are resilient to faults."
+    keywords:
+      - Fault Tolerance
+      - Fault Injection
+      - Single Event Upset (SEU)

@@ -1,0 +1,185 @@
+{{- define "main" }}
+{{- $news := hugo.Data.news }}
+{{- $research := hugo.Data.research }}
+{{- $pubs := hugo.Data.publications }}
+{{- $socials := site.Params.socialIcons }}
+{{- $heroTitle := replaceRE "^(.*)\\s+([^\\s]+)$" "$1 <em>$2</em>" site.Title }}
+<div class="phd-rail" aria-hidden="true">
+  <div class="phd-rail-fill" data-rail-fill></div>
+</div>
+<article class="post-single phd-landing">
+  <header id="about" class="post-header phd-hero" tabindex="-1" aria-label="About">
+    {{- with .Params.role }}
+    <div class="phd-overline">
+      <span class="phd-overline-line"></span>
+      <span>{{ . }}</span>
+    </div>
+    {{- end }}
+    <h1 class="phd-name">{{ $heroTitle | safeHTML }}</h1>
+    <div class="phd-hero-row">
+      <div class="phd-hero-copy">
+        <div class="phd-hero-bio md-content">
+          {{- .Content }}
+        </div>
+        {{- if $socials }}
+        <div class="phd-socials" aria-label="Profile links">
+          {{- range $socials }}
+          {{- $url := trim .url " " }}
+          {{- $name := lower .name }}
+          <a class="phd-social{{ if eq $name "email" }} is-primary{{ end }}" href="{{ $url | safeURL }}"{{ if not (hasPrefix $url "mailto:") }} target="_blank" rel="noopener noreferrer me"{{ end }}>
+            {{ partial "svg.html" . }}
+            <span>
+              {{- if eq $name "email" -}}
+                {{- replaceRE "^mailto:" "" $url -}}
+              {{- else if eq $name "googlescholar" -}}
+                Scholar
+              {{- else -}}
+                {{- (.title | default .name) | title -}}
+              {{- end -}}
+            </span>
+          </a>
+          {{- end }}
+          <a class="phd-social is-dark" href="{{ "/cv.pdf" | relURL }}" target="_blank" rel="noopener">CV</a>
+        </div>
+        {{- end }}
+      </div>
+      {{- with .Params.photo }}
+      <aside class="phd-hero-photo">
+        <img src="{{ . | relURL }}" alt="" width="160" height="160" loading="lazy" />
+      </aside>
+      {{- end }}
+    </div>
+  </header>
+
+  <section id="news" class="post-content phd-section" tabindex="-1">
+    <div class="phd-section-head">
+      <div>
+        <div class="phd-eyebrow">Recent activity</div>
+        <h2 class="phd-section-title">News</h2>
+      </div>
+      <div class="phd-section-index">§ 01 — NEWS</div>
+    </div>
+    {{- if and $news $news.items }}
+    <ul class="phd-news">
+      {{- range $news.items }}
+      <li>
+        <span class="phd-news-when">{{ .when }}</span>
+        <span class="phd-news-text">
+          {{- with .tag }}<span class="phd-news-tag">{{ . }}</span>{{ end -}}
+          {{- .text | markdownify -}}
+        </span>
+      </li>
+      {{- end }}
+    </ul>
+    {{- else }}
+    <p class="phd-empty">Add items in <code>data/news.yaml</code>.</p>
+    {{- end }}
+  </section>
+
+  <section id="research" class="post-content phd-section is-alt" tabindex="-1">
+    <div class="phd-section-head">
+      <div>
+        <div class="phd-eyebrow">Research areas</div>
+        <h2 class="phd-section-title">What I work on.</h2>
+      </div>
+      <div class="phd-section-index">§ 02 — RESEARCH</div>
+    </div>
+    {{- if and $research $research.areas }}
+    <div class="phd-areas">
+      {{- range $index, $area := $research.areas }}
+      <article class="phd-card">
+        <div class="phd-card-num"><b>{{ printf "%02d" (add $index 1) }}</b> — {{ with $area.label }}{{ . }}{{ else }}Research{{ end }}</div>
+        <h3>{{ .name }}</h3>
+        <p>{{ .summary }}</p>
+        {{- with .keywords }}
+        <p class="phd-tags">
+          {{- range . }}<span class="phd-tag">{{ . }}</span>{{ end }}
+        </p>
+        {{- end }}
+      </article>
+      {{- end }}
+    </div>
+    {{- else }}
+    <p class="phd-empty">Edit <code>data/research.yaml</code>.</p>
+    {{- end }}
+  </section>
+
+  <section id="publications" class="post-content phd-section" tabindex="-1">
+    <div class="phd-section-head">
+      <div>
+        <div class="phd-eyebrow">Selected publications</div>
+        <h2 class="phd-section-title">Publications.</h2>
+      </div>
+      <div class="phd-section-index">§ 03 — PUBLICATIONS</div>
+    </div>
+    {{- if and $pubs $pubs.entries }}
+    <ul class="phd-pubs">
+      {{- range sort $pubs.entries "year" "desc" }}
+      <li class="phd-pub">
+        <div class="phd-pub-year">
+          <span>{{ .year }}</span>
+          {{- with .venue }}<span class="phd-pub-venue-short">{{ . }}</span>{{ end }}
+        </div>
+        <div class="phd-pub-body">
+          {{- with .note }}
+          <div class="phd-pub-status">
+            <span class="phd-badge{{ if in (lower .) "accepted" }} is-accepted{{ else if in (lower .) "preprint" }} is-preprint{{ else }} is-neutral{{ end }}">{{ . }}</span>
+          </div>
+          {{- end }}
+          <h3 class="phd-pub-title">{{ .title }}</h3>
+          <p class="phd-pub-authors">{{ .authors }}</p>
+          {{- $year := .year }}
+          {{- with .venue }}
+          <p class="phd-pub-meta"><em>{{ . }}</em> · {{ $year }}</p>
+          {{- else }}
+          <p class="phd-pub-meta">{{ .year }}</p>
+          {{- end }}
+        </div>
+        <div class="phd-pub-links">
+          {{- with .links }}{{ $l := . -}}
+          {{- with $l.pdf -}}<a href="{{ . }}" target="_blank" rel="noopener">PDF</a>{{- end -}}
+          {{- with $l.acm -}}<a href="{{ . }}" target="_blank" rel="noopener">DOI/ACM</a>{{- end -}}
+          {{- end }}
+        </div>
+      </li>
+      {{- end }}
+    </ul>
+    {{- else }}
+    <p class="phd-empty">Add entries in <code>data/publications.yaml</code>.</p>
+    {{- end }}
+  </section>
+
+  <section id="contact" class="post-content phd-section is-alt" tabindex="-1">
+    <div class="phd-section-head">
+      <div>
+        <div class="phd-eyebrow">Get in touch</div>
+        <h2 class="phd-section-title">Let&apos;s talk.</h2>
+      </div>
+      <div class="phd-section-index">§ 04 — CONTACT</div>
+    </div>
+    <div class="phd-contact">
+      <p class="phd-contact-copy">Reach out for collaborations, talks, or questions. I am looking for industry internships for Summer 2027, preferably in Florida area.</p>
+      {{- if $socials }}
+      <div class="phd-socials phd-socials-compact" aria-label="Contact links">
+        {{- range $socials }}
+        {{- $url := trim .url " " }}
+        {{- $name := lower .name }}
+        <a class="phd-social{{ if eq $name "email" }} is-primary{{ end }}" href="{{ $url | safeURL }}"{{ if not (hasPrefix $url "mailto:") }} target="_blank" rel="noopener noreferrer me"{{ end }}>
+          {{ partial "svg.html" . }}
+          <span>
+            {{- if eq $name "email" -}}
+              {{- replaceRE "^mailto:" "" $url -}}
+            {{- else if eq $name "googlescholar" -}}
+              Scholar
+            {{- else -}}
+              {{- (.title | default .name) | title -}}
+            {{- end -}}
+          </span>
+        </a>
+        {{- end }}
+      </div>
+      {{- end }}
+    </div>
+  </section>
+</article>
+{{- end }}

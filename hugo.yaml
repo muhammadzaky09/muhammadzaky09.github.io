@@ -1,0 +1,53 @@
+# Personal academic site (single page + PaperMod). Replace branding and URLs before publishing.
+baseURL: "https://example.org/"
+languageCode: en-us
+title: "Muhammad Zaky Firdaus"
+theme: PaperMod
+disableKinds:
+  - RSS
+  - taxonomy
+  - term
+
+params:
+  env: development
+  description: "PhD student — short tagline. Edit this, your bio, and data/*.yaml."
+  defaultTheme: auto
+  ShowReadingTime: false
+  mainSections: []
+  profileMode:
+    enabled: false
+  socialIcons:
+    - name: email
+      url: "mailto:zaky@ucf.edu"
+    - name: github
+      url: "https://github.com/muhammadzaky09"
+    - name: linkedin
+      url: "https://www.linkedin.com/in/muhammadzakyf/"
+    - name: googlescholar
+      url: "https://scholar.google.com/citations?user=xxxx"
+
+menus:
+  main:
+    - name: About
+      url: /#about
+      weight: 10
+    - name: News
+      url: /#news
+      weight: 20
+    - name: Research
+      url: /#research
+      weight: 30
+    - name: Publications
+      url: /#publications
+      weight: 40
+    - name: Contact
+      url: /#contact
+      weight: 50
+    - name: CV
+      url: /cv.pdf
+      weight: 60
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true

@@ -1,0 +1,66 @@
+{{- if .IsHome }}
+<script>
+(() => {
+    const railFill = document.querySelector("[data-rail-fill]");
+    const navEntries = Array.from(document.querySelectorAll("#menu a[href*='#']"))
+        .map((link) => {
+            const href = link.getAttribute("href") || "";
+            const hashIndex = href.indexOf("#");
+            const id = hashIndex >= 0 ? decodeURIComponent(href.slice(hashIndex + 1)) : "";
+            const section = id ? document.getElementById(id) : null;
+
+            if (!section) {
+                return null;
+            }
+
+            return {
+                link,
+                label: link.querySelector("span"),
+                section,
+            };
+        })
+        .filter(Boolean);
+
+    const updateRail = () => {
+        if (!railFill) {
+            return;
+        }
+
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0;
+        railFill.style.height = `${progress}%`;
+    };
+
+    const updateActiveNav = () => {
+        if (!navEntries.length) {
+            return;
+        }
+
+        const marker = window.innerHeight * 0.28;
+        let activeId = navEntries[0].section.id;
+
+        navEntries.forEach(({ section }) => {
+            const rect = section.getBoundingClientRect();
+            if (rect.top <= marker && rect.bottom >= marker) {
+                activeId = section.id;
+            }
+        });
+
+        navEntries.forEach(({ label, section }) => {
+            if (label) {
+                label.classList.toggle("active", section.id === activeId);
+            }
+        });
+    };
+
+    const updateChrome = () => {
+        updateRail();
+        updateActiveNav();
+    };
+
+    window.addEventListener("scroll", updateChrome, { passive: true });
+    window.addEventListener("resize", updateChrome);
+    updateChrome();
+})();
+</script>
+{{- end }}
