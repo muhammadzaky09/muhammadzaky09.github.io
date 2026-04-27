@@ -2,7 +2,7 @@
 title: Home
 description: "PhD student at University of Central Florida — advised by Prof. Example."
 params:
-  role: "University of Central Florida · Department of Computer Science · PhD Student"
+  role: "University of Central Florida · CS/CE · PhD Student"
   photo: "/images/Untitled.jpg"
 ---
 
