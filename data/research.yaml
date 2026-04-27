@@ -6,7 +6,7 @@ areas:
       - Quantization
       - Graph Neural Networks
   - name: "ML Systems Reliability"
-    summary: "Analyzing and designing reliable hardware accelerators that are resilient to faults."
+    summary: "Analyzing and designing neural networks and hardware accelerators that are resilient to faults."
     keywords:
       - Fault Tolerance
       - Fault Injection

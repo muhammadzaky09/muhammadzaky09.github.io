@@ -2,7 +2,7 @@ items:
   - when: "April 2026"
     text: "Our paper, Fully Homomorphic Encryption Inference of Neural Networks using CKKS-TFHE Scheme Switching and Accelerated Linear Layers, has been accepted to ASIACCS 2026."
   - when: "Feb 2026"
-    text: "I will be starting my PhD program in Fall 2026 in Computer Science at University of Central Florida, advised by Prof. Hao Zheng."
+    text: "I will be starting my PhD program in Computer Science at the University of Central Florida in Fall 2026, advised by Prof. Hao Zheng."
   - when: "Oct 2025"
     text: "Joined King Abdullah University of Science and Technology (KAUST) as a Visiting Student at the SyntheSys Lab under Prof. Jian Weng."
   - when: "Aug 2025"
